@@ -3,7 +3,7 @@
 var base_url= "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
 
 //create the map
-var myMap= L.map('mapid').setView([40.7128, -74.006], 13)
+var myMap= L.map('mapid').setView([40.0150, -105.2705], 13)
 
 // var myMap= L.map('mapid', {
 //     center: [37.7749, -122.4194],
