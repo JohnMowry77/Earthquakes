@@ -29,20 +29,40 @@ d3.json(base_url).then(function(data){
 	createFeatures(data.features);
 });
 
-//function to determine features based on eathquakeData
+//function to determine features based on earthquakeData
 function createFeatures(earthquakeData) {
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
 	function onEachFeature(feature, layer) {
 		layer.bindPopup("<h3>" + feature.properties.place +
-			"</h3><hr><p>" + new Date(feature.properties.time) + "</p");
+			"</h3><hr><p>" + new Date(feature.properties.time));
+		}
+
+function colorMarker(mag) {
+	if (mag <= 1) {
+		return "#23348c";
+	} else if (1 < mag & mag <= 1.75) {
+		return "#506bab";
+	} else if (1.75 < mag & mag <= 2.5) {
+		return "#ad9257";
+	} else if (2.5 < mag & mag <= 3.25) {
+		return "#dbcdad";
+	} else if (3.25 < mag & mag <= 4) {
+		return "#688a50";
+	} else if (4 < mag & mag <= 4.5) {
+		return "#a9d48c";
 	}
+}
+
+
 
 //Create a GeoJson layer containing the features array on the eathquakeData object
 //Run the onEachFeature function once for each piece of data in the array 
 var earthquakes =L.geoJSON(earthquakeData, {
 	onEachFeature: onEachFeature
 });
+
+
 
 //Sending earthquakes layer to the createMap function
 createMap(earthquakes);
@@ -95,7 +115,7 @@ function createMap(earthquakes) {
 		zoom:2,
 		layers: [light, earthquakes]
 	});
-
+	//Add the layer control to the map
 	L.control.layers(baseMaps, overlayMaps, {
 		collapsed: false
 	}).addTo(myMap);
@@ -120,24 +140,9 @@ function createMap(earthquakes) {
 	// 	}).addTo(myMap);
 }
 
-
-// 	var earthquakes =L.geoJSON(earthquakeData, {
-// 		onEachFeature: onEachFeature
-// 	});
-
-// }
-
-
-// d3.json(base_url).then(function(data) {
-// 	//see data 
-//     // console.log(data)
-//     createFeatures(data.features);
-
-
-
-// });
-
-
+function markerSize(earthquakeData) {
+	return earthquakeData/2;
+}
 
 // var myIcon = L.icon({
 //     'iconUrl': "https://img.icons8.com/doodle/48/000000/apple.png",
