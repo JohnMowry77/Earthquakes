@@ -20,26 +20,6 @@ var base_url= "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/signifi
 // satellite map: “mapbox/satellite-v9"
 // outdoors map: “mapbox/outdoors-v11”
 
-// L.marker([39.989969,-105.497170]).addTo(myMap);
-
-// L.circle([40.214770, -105.630282], {
-// 	color: "yellow",
-// 	fillColor: "green",
-// 	fillOpacity: 0.75,
-// 	radius: 2000
-// }).addTo(myMap);
-
-// L.polygon ([
-// 	//lat, lon (has to be)
-// 	[40.214770, -105.630282],
-// 	[40.05661, -105.19938],
-// 	[36.07634,-86.77964]
-// 	], {
-// 		color: "green",
-// 		fillColor: "green",
-// 		fillOpacity: 0.75
-// 	}).addTo(myMap);
-
 
 //Perform a GET request to the base_url
 //https:leafletjs.com/examples/geojson/
@@ -99,7 +79,6 @@ function createMap(earthquakes) {
     accessToken: API_KEY
 	});
 
-
 	var baseMaps= {
 		"Light Map": light,
 		"Outdoors Map": outdoors,
@@ -115,7 +94,7 @@ function createMap(earthquakes) {
 		center: [
 		40.0150, -105.2705
 		],
-		zoom: 10,
+		zoom:2,
 		layers: [light, earthquakes]
 	});
 
@@ -123,10 +102,25 @@ function createMap(earthquakes) {
 		collapsed: false
 	}).addTo(myMap);
 
-	// var basLayer ={
-	// 	'light Map':
-	// }
-	}
+
+	L.circle([40.214770, -105.630282], {
+		color: "yellow",
+		fillColor: "green",
+		fillOpacity: 0.75,
+		radius: 2000
+	}).addTo(myMap);
+
+	// L.polygon ([
+	// 	//lat, lon (has to be)
+	// 	[40.214770, -105.630282],
+	// 	[40.05661, -105.19938],
+	// 	[36.07634,-86.77964]
+	// 	], {
+	// 		color: "green",
+	// 		fillColor: "green",
+	// 		fillOpacity: 0.75
+	// 	}).addTo(myMap);
+}
 
 
 // 	var earthquakes =L.geoJSON(earthquakeData, {
