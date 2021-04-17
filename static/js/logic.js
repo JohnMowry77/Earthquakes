@@ -4,7 +4,7 @@
 //Step 1: store API endpoint
 var base_url= "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
 
-//Step 2: create map
+
 //mapid is div within index.thml
 // var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
 
@@ -13,7 +13,7 @@ var base_url= "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/signifi
 //     zoom: 5
 // })
 
-// Step 3:Add a tile layer to your map
+// Step 3: Add a tile layer to your map
 // use addTo method to add objects to your map.
 // Here are the ids you will need for the base maps in the homework:
 // gray map: “mapbox/light-v10”
@@ -21,39 +21,39 @@ var base_url= "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/signifi
 // outdoors map: “mapbox/outdoors-v11”
 
 
-//Perform a GET request to the base_url
+//Step 4: Perform a GET request to the base_url
 //https:leafletjs.com/examples/geojson/
 d3.json(base_url).then(function(data){
+	//Once we get a response, send the data.features object to the CreateFeatures function
 	// console.log(data)
 	createFeatures(data.features);
 });
 
-// d3.json(base_url, function(data) {
-//   // Once we get a response, send the data.features object to the createFeatures function
-//   createFeatures(data.features);
-// });
-
-
+//function to determine features based on eathquakeData
 function createFeatures(earthquakeData) {
+  // Define a function we want to run once for each feature in the features array
+  // Give each feature a popup describing the place and time of the earthquake
 	function onEachFeature(feature, layer) {
-		layer.bindPopup("h3>" + feature.properties.place +
-		"</h3>" + new Date(feature.properties.time) + "</p");
+		layer.bindPopup("<h3>" + feature.properties.place +
+			"</h3><hr><p>" + new Date(feature.properties.time) + "</p");
 	}
 
+//Create a GeoJson layer containing the features array on the eathquakeData object
+//Run the onEachFeature function once for each piece of data in the array 
 var earthquakes =L.geoJSON(earthquakeData, {
 	onEachFeature: onEachFeature
 });
 
+//Sending earthquakes layer to the createMap function
 createMap(earthquakes);
 // }
 
 function createMap(earthquakes) {
-
+	//define the three different maps
 	var light = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 	    maxZoom: 18,
 	    id: 'mapbox/light-v10',
-	    // id: 'mapbox/outdoors-v11',
 	    tileSize: 512,
 	    zoomOffset: -1,
 	    accessToken: API_KEY
@@ -62,7 +62,6 @@ function createMap(earthquakes) {
 	var outdoors =L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 	    maxZoom: 18,
-	    // id: 'mapbox/light-v10',
 	    id: 'mapbox/outdoors-v11',
 	    tileSize: 512,
 	    zoomOffset: -1,
@@ -73,7 +72,6 @@ function createMap(earthquakes) {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/satellite-v9',
-    // id: 'mapbox/outdoors-v11',
     tileSize: 512,
     zoomOffset: -1,
     accessToken: API_KEY
@@ -88,7 +86,7 @@ function createMap(earthquakes) {
 	var overlayMaps ={
 		Earthquakes: earthquakes
 	};
-
+	//Step : create map
 	// var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
 	var myMap =L.map("mapid", {
 		center: [
