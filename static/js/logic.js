@@ -29,32 +29,31 @@ d3.json(base_url).then(function(data){
 	createFeatures(data.features);
 });
 
-//function to determine features based on earthquakeData
+function Colormarker(mag) {
+	if (mag <=2) {
+		return "#23348c";
+	} else if (2 < mag & mag <=3) {
+		return "#4d5db3"
+	} else if (3 < mag & mag <=4) {
+		return "#39585c"
+	} else if (4 < mag & mag <=5) {
+		return "#86b9bf"
+	} else if (5 < mag & mag <=6) {
+		return "#cf7508"
+	} else {
+		return "#8a500a"
+	};
+}
+
+//function to determine features based on eathquakeData
 function createFeatures(earthquakeData) {
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
 	function onEachFeature(feature, layer) {
-		layer.bindPopup("<h3>" + feature.properties.place +
-			"</h3><hr><p>" + new Date(feature.properties.time));
-		}
-
-function colorMarker(mag) {
-	if (mag <= 1) {
-		return "#23348c";
-	} else if (1 < mag & mag <= 1.75) {
-		return "#506bab";
-	} else if (1.75 < mag & mag <= 2.5) {
-		return "#ad9257";
-	} else if (2.5 < mag & mag <= 3.25) {
-		return "#dbcdad";
-	} else if (3.25 < mag & mag <= 4) {
-		return "#688a50";
-	} else if (4 < mag & mag <= 4.5) {
-		return "#a9d48c";
+		layer.bindPopup("<h3>" + feature.properties.place + //location
+			"</h3><hr><p>" + new Date(feature.properties.time) + "</p" //time of day ISO 
+			+"<p>><b>Magnitude:" + feature.properties.mag + "<b></p>"); //gives you magnitude 
 	}
-}
-
-
 
 //Create a GeoJson layer containing the features array on the eathquakeData object
 //Run the onEachFeature function once for each piece of data in the array 
@@ -62,15 +61,13 @@ var earthquakes =L.geoJSON(earthquakeData, {
 	onEachFeature: onEachFeature
 });
 
-
-
 //Sending earthquakes layer to the createMap function
 createMap(earthquakes);
 // }
 
 function createMap(earthquakes) {
 	//define the three different maps
-	var light = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+	var lightMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 	    maxZoom: 18,
 	    id: 'mapbox/light-v10',
@@ -79,7 +76,7 @@ function createMap(earthquakes) {
 	    accessToken: API_KEY
 	});
 
-	var outdoors =L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+	var outdoorsMap =L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 	    maxZoom: 18,
 	    id: 'mapbox/outdoors-v11',
@@ -88,7 +85,7 @@ function createMap(earthquakes) {
 	    accessToken: API_KEY
 	});
 
-	var satellite = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+	var satelliteMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/satellite-v9',
@@ -98,9 +95,9 @@ function createMap(earthquakes) {
 	});
 
 	var baseMaps= {
-		"Light Map": light,
-		"Outdoors Map": outdoors,
-		"Satellite": satellite
+		"Light Map": lightMap,
+		"Outdoors Map": outdoorsMap,
+		"Satellite": satelliteMap
 	};
 
 	var overlayMaps ={
@@ -113,9 +110,9 @@ function createMap(earthquakes) {
 		40.0150, -105.2705
 		],
 		zoom:2,
-		layers: [light, earthquakes]
+		layers: [lightMap, earthquakes]
 	});
-	//Add the layer control to the map
+
 	L.control.layers(baseMaps, overlayMaps, {
 		collapsed: false
 	}).addTo(myMap);
@@ -128,6 +125,28 @@ function createMap(earthquakes) {
 		radius: 2000
 	}).addTo(myMap);
 
+	};
+//Create Markers function
+function Markers(response) {
+// 	earthquakes.features.forEach(quake => {
+	var earthquakes =response.features;;
+	var markers = []
+
+	for (var i =0; i< earthquakes.length; i++) {
+		var earthquake =earthquakes[i];
+		var marker = L.circleMarker([earthquake.geomertry.coordinates[1],earthquake.geometry.coordinates[0]], {
+				"color" : "black",
+				weight: 0.2,
+				fillColor: colorMarker(earthquake.properties.mag),
+				fillOpacity: 0.75,
+				radius: earthquake.properties.mag *2
+			}
+			).bindPopup("<h4>" + earthquake.properties.place + "</h4><hr><p>" + new Date (earthquake.properties.time) + "</p>" + "<p><b>Text: " + earthquake.properties.mag + "<b></p>");
+			 
+		markers.push(marker);
+	}
+	createMap(L.layerGroup(marker));
+}
 	// L.polygon ([
 	// 	//lat, lon (has to be)
 	// 	[40.214770, -105.630282],
@@ -138,15 +157,10 @@ function createMap(earthquakes) {
 	// 		fillColor: "green",
 	// 		fillOpacity: 0.75
 	// 	}).addTo(myMap);
-}
 
-function markerSize(earthquakeData) {
-	return earthquakeData/2;
-}
-
+};
 // var myIcon = L.icon({
 //     'iconUrl': "https://img.icons8.com/doodle/48/000000/apple.png",
 //     // iconUrl: 'my-icon.png',
 //     'iconSize': [20, 20],
 //     'iconAnchor': [0, 0],
-};
