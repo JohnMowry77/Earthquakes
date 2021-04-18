@@ -28,20 +28,20 @@ d3.json(base_url).then(function(data){
 	// console.log(data)
 	createFeatures(data.features);
 });
-
+// https:color-hex.org/color/f57e02
 function colorMarker(mag) {
 	if (mag <=4) {
-		return "#23348c";
+		return "#f57e02";
 	} else if (4 < mag & mag <=4.5) {
-		return "#4d5db3"
+		return "#F68A1B"
 	} else if (4.5 < mag & mag <=5) {
-		return "#39585c"
+		return "#F79734"
 	} else if (5 < mag & mag <=5.5) {
-		return "#86b9bf"
+		return "#F8A44D"
 	} else if (5.5 < mag & mag <=6) {
-		return "#cf7508"
+		return "#F9B167"
 	} else {
-		return "#8a500a"
+		return "#FABE80"
 	};
 }
 
