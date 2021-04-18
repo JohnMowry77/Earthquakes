@@ -4,10 +4,7 @@
 //Step 1: store API endpoint (Read Me)
 var base_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
 
-//bonus:
-//star here: https:github.com/fraxen/tectonicplates
- // Take raw data from fraxen: https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_plates.json
- var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
+
 //mapid is div within index.thml
 // var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
 
@@ -121,7 +118,7 @@ function createMap(earthquakes) {
 	};
 
 	var overlayMaps ={
-		//Put Fault Lines: plates here if you do bonus
+		// Put Fault Lines: plates here if you do bonus
 		Earthquakes: earthquakes
 	};
 	//Step : create map
@@ -130,15 +127,15 @@ function createMap(earthquakes) {
 		center: [
 		40.0150, -105.2705
 		],
-		zoom:2,
+		zoom:3,
 		layers: [lightMap, earthquakes] //include plates overlay
 	});
-
+	// lay control to pass in our baseMaps and overlayMaps //add to map
 	L.control.layers(baseMaps, overlayMaps, {
 		collapsed: false
 	}).addTo(myMap);
 
-
+	//a location in Boulder, CO
 	L.circle([40.01254656535285, -105.30987744617616], {
 		color: "yellow",
 		fillColor: "green",
@@ -146,21 +143,28 @@ function createMap(earthquakes) {
 		radius: 2000
 	}).addTo(myMap);
 
-	var info = L.control({
-		position: "bottomleft"
-	});
-	 info.onAdd = function () {
-	 	var div = L.DomUtil.create("div", "legend info");
-	 	return div;
-	 }
+	// var info = L.control({
+	// 	position: "bottomleft"
+	// });
+	//  info.onAdd = function () {
+	//  	var div = L.DomUtil.create("div", "legend info");
+	//  	return div;
+	//  }
 
-	 info.addTo(myMap);
+	//  info.addTo(myMap);
 
-	 document.querySelector(".legend").innterHTML=displayLegend();
+	//  document.querySelector(".legend").innterHTML=displayLegend();
 
-	 var
+	//bonus:
+	//star here: https:github.com/fraxen/tectonicplates
+ 	// Take raw data from fraxen: https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_plates.json
+ 	// put this in jsonformatter 
+ 	var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
 
-
+ 	d3.json(plates, function(data) {
+ 		L.geoJson(data)
+ 	})
+ 	//
 
 	}
 //Create Markers function
