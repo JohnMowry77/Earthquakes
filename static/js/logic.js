@@ -29,7 +29,7 @@ d3.json(base_url).then(function(data){
 	createFeatures(data.features);
 });
 
-function Colormarker(mag) {
+function colorMarker(mag) {
 	if (mag <=2) {
 		return "#23348c";
 	} else if (2 < mag & mag <=3) {
@@ -55,15 +55,31 @@ function createFeatures(earthquakeData) {
 			+"<p>><b>Magnitude:" + feature.properties.mag + "<b></p>"); //gives you magnitude 
 	}
 
+//Create radius function
+function circleRadius(mag) {
+	return mag * 1000;
+}
+
+
 //Create a GeoJson layer containing the features array on the eathquakeData object
 //Run the onEachFeature function once for each piece of data in the array 
+// Run pointToLayer function and use latlng which Represents a geographical point with a certain latitude and longitude (documentation)
+//https:leafletjs.com/reference-1.7.1.html#latlng (search latlng and pointToLayer)
+//https:leafletjs.com/reference-1.7.1.html#point
 var earthquakes =L.geoJSON(earthquakeData, {
-	onEachFeature: onEachFeature
-});
+	pointToLayer: function (earthquakeData, latlng) {
+		return L.circle(latlng, {
+			"radius" : circleRadius(earthquakeData.properties.mag),
+			"color": colorMarker(earthquakeData.properties.mag),
+			fillOpacity: 2
+		});
+	},
+	onEachFeature : onEachFeature
+	});
 
 //Sending earthquakes layer to the createMap function
-createMap(earthquakes);
-// }
+	createMap(earthquakes);
+}
 
 function createMap(earthquakes) {
 	//define the three different maps
@@ -101,6 +117,7 @@ function createMap(earthquakes) {
 	};
 
 	var overlayMaps ={
+		//Put Fault Lines: plates here if you do bonus
 		Earthquakes: earthquakes
 	};
 	//Step : create map
@@ -110,7 +127,7 @@ function createMap(earthquakes) {
 		40.0150, -105.2705
 		],
 		zoom:2,
-		layers: [lightMap, earthquakes]
+		layers: [lightMap, earthquakes] //include plates overlay
 	});
 
 	L.control.layers(baseMaps, overlayMaps, {
@@ -125,7 +142,19 @@ function createMap(earthquakes) {
 		radius: 2000
 	}).addTo(myMap);
 
-	};
+	var info = L.control({
+		position: "bottomleft"
+	});
+	 info.onAdd = function () {
+	 	var div = L.DomUtil.create("div", "legend info");
+	 	return div;
+	 }
+
+	 info.addTo(myMap);
+
+	 document.querySelector(".legend").innterHTML=displayLegend();
+
+	}
 //Create Markers function
 function Markers(response) {
 // 	earthquakes.features.forEach(quake => {
@@ -158,7 +187,7 @@ function Markers(response) {
 	// 		fillOpacity: 0.75
 	// 	}).addTo(myMap);
 
-};
+
 // var myIcon = L.icon({
 //     'iconUrl': "https://img.icons8.com/doodle/48/000000/apple.png",
 //     // iconUrl: 'my-icon.png',
