@@ -1,10 +1,13 @@
 //documentation
 //https:leafletjs.com/examples/quick-start/
 
-//Step 1: store API endpoint
-var base_url= "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
+//Step 1: store API endpoint (Read Me)
+var base_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
 
-
+//bonus:
+//star here: https:github.com/fraxen/tectonicplates
+ // Take raw data from fraxen: https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_plates.json
+ var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
 //mapid is div within index.thml
 // var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
 
@@ -49,6 +52,7 @@ function colorMarker(mag) {
 function createFeatures(earthquakeData) {
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
+  //https:leafletjs.com/reference-1.7.1.html#geojson-oneachfeature
 	function onEachFeature(feature, layer) {
 		layer.bindPopup("<h3>" + feature.properties.place + //location
 			"</h3><hr><p>" + new Date(feature.properties.time) + "</p" //time of day ISO 
@@ -135,10 +139,10 @@ function createMap(earthquakes) {
 	}).addTo(myMap);
 
 
-	L.circle([40.214770, -105.630282], {
+	L.circle([40.01254656535285, -105.30987744617616], {
 		color: "yellow",
 		fillColor: "green",
-		fillOpacity: 0.75,
+		fillOpacity: 50,
 		radius: 2000
 	}).addTo(myMap);
 
@@ -153,6 +157,10 @@ function createMap(earthquakes) {
 	 info.addTo(myMap);
 
 	 document.querySelector(".legend").innterHTML=displayLegend();
+
+	 var
+
+
 
 	}
 //Create Markers function
