@@ -30,15 +30,15 @@ d3.json(base_url).then(function(data){
 });
 
 function colorMarker(mag) {
-	if (mag <=2) {
+	if (mag <=4) {
 		return "#23348c";
-	} else if (2 < mag & mag <=3) {
+	} else if (4 < mag & mag <=4.5) {
 		return "#4d5db3"
-	} else if (3 < mag & mag <=4) {
+	} else if (4.5 < mag & mag <=5) {
 		return "#39585c"
-	} else if (4 < mag & mag <=5) {
+	} else if (5 < mag & mag <=5.5) {
 		return "#86b9bf"
-	} else if (5 < mag & mag <=6) {
+	} else if (5.5 < mag & mag <=6) {
 		return "#cf7508"
 	} else {
 		return "#8a500a"
@@ -57,7 +57,7 @@ function createFeatures(earthquakeData) {
 
 //Create radius function
 function circleRadius(mag) {
-	return mag * 1000;
+	return mag * 30000;
 }
 
 
@@ -71,7 +71,7 @@ var earthquakes =L.geoJSON(earthquakeData, {
 		return L.circle(latlng, {
 			"radius" : circleRadius(earthquakeData.properties.mag),
 			"color": colorMarker(earthquakeData.properties.mag),
-			fillOpacity: 2
+			fillOpacity: 500000
 		});
 	},
 	onEachFeature : onEachFeature
@@ -156,26 +156,26 @@ function createMap(earthquakes) {
 
 	}
 //Create Markers function
-function Markers(response) {
-// 	earthquakes.features.forEach(quake => {
-	var earthquakes =response.features;;
-	var markers = []
+// function Markers(response) {
+// // 	earthquakes.features.forEach(quake => {
+// 	var earthquakes =response.features;;
+// 	var markers = []
 
-	for (var i =0; i< earthquakes.length; i++) {
-		var earthquake =earthquakes[i];
-		var marker = L.circleMarker([earthquake.geomertry.coordinates[1],earthquake.geometry.coordinates[0]], {
-				"color" : "black",
-				weight: 0.2,
-				fillColor: colorMarker(earthquake.properties.mag),
-				fillOpacity: 0.75,
-				radius: earthquake.properties.mag *2
-			}
-			).bindPopup("<h4>" + earthquake.properties.place + "</h4><hr><p>" + new Date (earthquake.properties.time) + "</p>" + "<p><b>Text: " + earthquake.properties.mag + "<b></p>");
+// 	for (var i =0; i< earthquakes.length; i++) {
+// 		var earthquake =earthquakes[i];
+// 		var marker = L.circleMarker([earthquake.geomertry.coordinates[1],earthquake.geometry.coordinates[0]], {
+// 				"color" : "black",
+// 				weight: 0.2,
+// 				fillColor: colorMarker(earthquake.properties.mag),
+// 				fillOpacity: 0.75,
+// 				radius: earthquake.properties.mag *2
+// 			}
+// 			).bindPopup("<h4>" + earthquake.properties.place + "</h4><hr><p>" + new Date (earthquake.properties.time) + "</p>" + "<p><b>Text: " + earthquake.properties.mag + "<b></p>");
 			 
-		markers.push(marker);
-	}
-	createMap(L.layerGroup(marker));
-}
+// 		markers.push(marker);
+// 	}
+// 	createMap(L.layerGroup(marker));
+// }
 	// L.polygon ([
 	// 	//lat, lon (has to be)
 	// 	[40.214770, -105.630282],
