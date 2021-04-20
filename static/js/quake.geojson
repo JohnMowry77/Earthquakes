@@ -1,0 +1,341 @@
+{
+"type": "FeatureCollection",
+"metadata": {
+"generated": 1618885204000,
+"url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson",
+"title": "USGS Significant Earthquakes, Past Month",
+"status": 200,
+"api": "1.10.3",
+"count": 8
+},
+"features": [
+{
+"type": "Feature",
+"properties": {
+"mag": 5.8,
+"place": "28 km NNE of Bandar-e Genāveh, Iran",
+"time": 1618728109928,
+"updated": 1618859922280,
+"tz": null,
+"url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000e2k3",
+"detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/us6000e2k3.geojson",
+"felt": 89,
+"cdi": 8.5,
+"mmi": 8.316,
+"alert": "red",
+"status": "reviewed",
+"tsunami": 0,
+"sig": 2076,
+"net": "us",
+"code": "6000e2k3",
+"ids": ",us6000e2k3,",
+"sources": ",us,",
+"types": ",dyfi,ground-failure,losspager,moment-tensor,origin,phase-data,shakemap,",
+"nst": null,
+"dmin": 6.762,
+"rms": 0.93,
+"gap": 21,
+"magType": "mww",
+"type": "earthquake",
+"title": "M 5.8 - 28 km NNE of Bandar-e Genāveh, Iran"
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+50.6793,
+29.7931,
+8
+]
+},
+"id": "us6000e2k3"
+},
+{
+"type": "Feature",
+"properties": {
+"mag": 4.5,
+"place": "10 km W of Kalloní, Greece",
+"time": 1618459820950,
+"updated": 1618840304984,
+"tz": null,
+"url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000e1pd",
+"detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/us6000e1pd.geojson",
+"felt": 561,
+"cdi": 6.4,
+"mmi": null,
+"alert": null,
+"status": "reviewed",
+"tsunami": 0,
+"sig": 671,
+"net": "us",
+"code": "6000e1pd",
+"ids": ",us6000e1pd,",
+"sources": ",us,",
+"types": ",dyfi,origin,phase-data,",
+"nst": null,
+"dmin": 0.659,
+"rms": 0.51,
+"gap": 46,
+"magType": "mb",
+"type": "earthquake",
+"title": "M 4.5 - 10 km W of Kalloní, Greece"
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+26.0848,
+39.2383,
+11.61
+]
+},
+"id": "us6000e1pd"
+},
+{
+"type": "Feature",
+"properties": {
+"mag": 6,
+"place": "44 km SSW of Gongdanglegi Kulon, Indonesia",
+"time": 1618038017391,
+"updated": 1618223697247,
+"tz": null,
+"url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000e0iy",
+"detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/us6000e0iy.geojson",
+"felt": 117,
+"cdi": 7.1,
+"mmi": 5.131,
+"alert": "green",
+"status": "reviewed",
+"tsunami": 0,
+"sig": 637,
+"net": "us",
+"code": "6000e0iy",
+"ids": ",us6000e0iy,",
+"sources": ",us,",
+"types": ",dyfi,ground-failure,losspager,moment-tensor,origin,phase-data,shakemap,",
+"nst": null,
+"dmin": 1.617,
+"rms": 1.15,
+"gap": 26,
+"magType": "mww",
+"type": "earthquake",
+"title": "M 6.0 - 44 km SSW of Gongdanglegi Kulon, Indonesia"
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+112.519,
+-8.5622,
+82.28
+]
+},
+"id": "us6000e0iy"
+},
+{
+"type": "Feature",
+"properties": {
+"mag": 5.5,
+"place": "27 km SE of Cantwell, Alaska",
+"time": 1617901818765,
+"updated": 1618852828734,
+"tz": null,
+"url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0214icukav",
+"detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ak0214icukav.geojson",
+"felt": 1976,
+"cdi": 5.9,
+"mmi": 3.96,
+"alert": "green",
+"status": "reviewed",
+"tsunami": 1,
+"sig": 1055,
+"net": "ak",
+"code": "0214icukav",
+"ids": ",at00qr9917,ak0214icukav,us6000e02h,",
+"sources": ",at,ak,us,",
+"types": ",dyfi,ground-failure,impact-link,losspager,moment-tensor,oaf,origin,phase-data,shakemap,",
+"nst": null,
+"dmin": null,
+"rms": 0.73,
+"gap": null,
+"magType": "mww",
+"type": "earthquake",
+"title": "M 5.5 - 27 km SE of Cantwell, Alaska"
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-148.5817,
+63.2075,
+77.7
+]
+},
+"id": "ak0214icukav"
+},
+{
+"type": "Feature",
+"properties": {
+"mag": 4,
+"place": "2km E of Lennox, CA",
+"time": 1617623041950,
+"updated": 1618871344308,
+"tz": null,
+"url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci39838928",
+"detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ci39838928.geojson",
+"felt": 7512,
+"cdi": 4.8,
+"mmi": 4.306,
+"alert": "green",
+"status": "reviewed",
+"tsunami": 1,
+"sig": 726,
+"net": "ci",
+"code": "39838928",
+"ids": ",ci39838928,at00qr39xd,us6000dz4e,ew1617623043,",
+"sources": ",ci,at,us,ew,",
+"types": ",dyfi,focal-mechanism,impact-link,losspager,moment-tensor,nearby-cities,origin,phase-data,scitech-link,shake-alert,shakemap,",
+"nst": 188,
+"dmin": 0.01933,
+"rms": 0.25,
+"gap": 39,
+"magType": "mw",
+"type": "earthquake",
+"title": "M 4.0 - 2km E of Lennox, CA"
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-118.3333333,
+33.9405,
+19.34
+]
+},
+"id": "ci39838928"
+},
+{
+"type": "Feature",
+"properties": {
+"mag": 6.6,
+"place": "east of the South Sandwich Islands",
+"time": 1617412599883,
+"updated": 1617499205970,
+"tz": null,
+"url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000dynd",
+"detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/us6000dynd.geojson",
+"felt": null,
+"cdi": null,
+"mmi": 0,
+"alert": "green",
+"status": "reviewed",
+"tsunami": 1,
+"sig": 670,
+"net": "us",
+"code": "6000dynd",
+"ids": ",at00qqyrjr,pt21093000,us6000dynd,",
+"sources": ",at,pt,us,",
+"types": ",impact-link,losspager,moment-tensor,origin,phase-data,shakemap,",
+"nst": null,
+"dmin": 13.892,
+"rms": 1.25,
+"gap": 36,
+"magType": "mww",
+"type": "earthquake",
+"title": "M 6.6 - east of the South Sandwich Islands"
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-7.8147,
+-57.9898,
+10
+]
+},
+"id": "us6000dynd"
+},
+{
+"type": "Feature",
+"properties": {
+"mag": 6.5,
+"place": "Kermadec Islands, New Zealand",
+"time": 1617270997576,
+"updated": 1618426711040,
+"tz": null,
+"url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000dy64",
+"detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/us6000dy64.geojson",
+"felt": 1,
+"cdi": 1,
+"mmi": 4.453,
+"alert": "green",
+"status": "reviewed",
+"tsunami": 1,
+"sig": 650,
+"net": "us",
+"code": "6000dy64",
+"ids": ",us6000dy64,pt21091001,at00qqvqag,",
+"sources": ",us,pt,at,",
+"types": ",associate,dyfi,impact-link,losspager,moment-tensor,origin,phase-data,shakemap,trump-origin,",
+"nst": null,
+"dmin": 0.743,
+"rms": 1.44,
+"gap": 30,
+"magType": "mww",
+"type": "earthquake",
+"title": "M 6.5 - Kermadec Islands, New Zealand"
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+-177.6507,
+-29.9502,
+20
+]
+},
+"id": "us6000dy64"
+},
+{
+"type": "Feature",
+"properties": {
+"mag": 5.3,
+"place": "101 km NE of Aksu, China",
+"time": 1616534058805,
+"updated": 1617916789173,
+"tz": null,
+"url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000dvwp",
+"detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/us6000dvwp.geojson",
+"felt": null,
+"cdi": null,
+"mmi": 6.452,
+"alert": "yellow",
+"status": "reviewed",
+"tsunami": 0,
+"sig": 650,
+"net": "us",
+"code": "6000dvwp",
+"ids": ",us6000dvwp,",
+"sources": ",us,",
+"types": ",impact-text,losspager,origin,phase-data,shakemap,",
+"nst": null,
+"dmin": 1.586,
+"rms": 0.66,
+"gap": 37,
+"magType": "mww",
+"type": "earthquake",
+"title": "M 5.3 - 101 km NE of Aksu, China"
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+81.1637,
+41.8162,
+10
+]
+},
+"id": "us6000dvwp"
+}
+],
+"bbox": [
+-177.6507,
+-57.9898,
+8,
+112.519,
+63.2075,
+82.28
+]
+}

@@ -4,7 +4,6 @@
 //Step 1: store API endpoint (Read Me)
 var base_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
 
-
 //mapid is div within index.thml
 // var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
 
@@ -70,7 +69,7 @@ function circleRadius(mag) {
 var earthquakes =L.geoJSON(earthquakeData, {
 	pointToLayer: function (earthquakeData, latlng) {
 		return L.circle(latlng, {
-			"radius" : circleRadius(earthquakeData.properties.mag),
+			"radius" : circleRadius(earthquakeData.properties.mag), //
 			"color": colorMarker(earthquakeData.properties.mag),
 			fillOpacity: 500000
 		});
@@ -81,6 +80,16 @@ var earthquakes =L.geoJSON(earthquakeData, {
 //Sending earthquakes layer to the createMap function
 	createMap(earthquakes);
 }
+
+//COMEBACK TO ME for BONUS
+var faultlines =L geoJson(plates, {
+	pointToLayer: function(plates, latlng) {
+		one_point=data['features']['geometry']['coordinates'][0]
+		L.marker([one_point['features']['geometry']['coordinates'][1],one_point['features']['geometry']['coordinates'][0]])
+	})
+}
+
+
 
 function createMap(earthquakes) {
 	//define the three different maps
@@ -117,9 +126,12 @@ function createMap(earthquakes) {
 		"Satellite": satelliteMap
 	};
 
+	//https:leafletjs.com/examples/layers-control/
+	//https:leafletjs.com/reference-1.7.1.html#layergroup
 	var overlayMaps ={
 		// Put Fault Lines: plates here if you do bonus
-		Earthquakes: earthquakes
+		'FaultLines': faultlines,
+		'Earthquakes': earthquakes
 	};
 	//Step : create map
 	// var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
@@ -127,15 +139,17 @@ function createMap(earthquakes) {
 		center: [
 		40.0150, -105.2705
 		],
-		zoom:3,
+		zoom:2,
 		layers: [lightMap, earthquakes] //include plates overlay
 	});
 	// lay control to pass in our baseMaps and overlayMaps //add to map
 	L.control.layers(baseMaps, overlayMaps, {
 		collapsed: false
 	}).addTo(myMap);
-
+	
+	//https:leafletjs.com/examples/layers-control/
 	//a location in Boulder, CO
+	L.marker([40.01254656535285, -105.30987744617616]).bindPopup('This is Boulder, CO.').addTo(myMap);
 	L.circle([40.01254656535285, -105.30987744617616], {
 		color: "yellow",
 		fillColor: "green",
@@ -143,30 +157,66 @@ function createMap(earthquakes) {
 		radius: 2000
 	}).addTo(myMap);
 
-	// var info = L.control({
-	// 	position: "bottomleft"
-	// });
-	//  info.onAdd = function () {
-	//  	var div = L.DomUtil.create("div", "legend info");
-	//  	return div;
-	//  }
+	//https:leafletjs.com/reference-1.7.1.html#control-layers-option
+	var info = L.control({
+		position: "bottomleft"
+	}); //https:leafletjs.com/examples/choropleth/
+	 info.onAdd = function () {
+		// https:leafletjs.com/reference-1.7.1.html#domutil
+	 	var div = L.DomUtil.create("div", "legend info");
+	 	var colors = color
+	 	div.update()
+	 	return div;
+	// // method that we will use to update the control based on feature properties passed
+	// info.update = function (props) {
+ //    this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
+ //        '<b>' + props.Layer + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+ //        : 'Hover over a state');
+	// };
+
+
+	 }
+};
+	 // var info = L.control();
+
+	// info.onAdd = function (map) {
+ //    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+ //    this.update();
+ //    return this._div;
+	// };
 
 	//  info.addTo(myMap);
 
 	//  document.querySelector(".legend").innterHTML=displayLegend();
 
-	//bonus:
-	//star here: https:github.com/fraxen/tectonicplates
- 	// Take raw data from fraxen: https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_plates.json
- 	// put this in jsonformatter 
- 	var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
+	//BONUS:
 
- 	d3.json(plates, function(data) {
- 		L.geoJson(data)
- 	})
- 	//
+	// d3.json(plates).then(function(data) {
+	// 	createFeatures(data.features);
+	// });
 
-	}
+
+	// //star here: https:github.com/fraxen/tectonicplates
+ // 	// Take raw data from fraxen: https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_plates.json
+ // 	// put this in jsonformatter 
+ // 	var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
+ // 	//raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
+
+ // 	//d3.json(plates).then(function(data) {
+ // 	// 	console.log(data)
+ // 	// })
+ // 	d3.json(plates, function(data) {
+ // 		//https:leafletjs.com/examples/geojson/
+	// 	L.geoJson(data).addTo(earthquakes); //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
+	// 	one_point=data['features']['geometry']['coordinates'][0]
+	// 	L.marker([one_point['features']['geometry']['coordinates'][1],one_point['features']['geometry']['coordinates'][0]])
+	// })	.addTo(myMap);
+ 		// Need to go to 'features' key, 'geometry' key, 'coordinates' key, grab lat [1] and long [0]
+ 		// https:leafletjs.com/reference-1.7.1.html#polygon
+
+
+
+//////////////////////
 //Create Markers function
 // function Markers(response) {
 // // 	earthquakes.features.forEach(quake => {
