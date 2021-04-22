@@ -28,21 +28,22 @@ d3.json(base_url).then(function(data){
 	createFeatures(data.features);
 });
 // https:color-hex.org/color/f57e02
-function colorMarker(mag) {
-	if (mag <=4) {
+function colorMarker(mag) { //USE THIS FOR LEGEND ADJUST 
+	if (mag <=0) {
 		return "#f57e02";
-	} else if (4 < mag & mag <=4.5) {
+	} else if (9 < mag & mag <=20) {
 		return "#F68A1B"
-	} else if (4.5 < mag & mag <=5) {
+	} else if ( 49< mag & mag <=80) {
 		return "#F79734"
-	} else if (5 < mag & mag <=5.5) {
+	} else if (99 < mag & mag <=400) {
 		return "#F8A44D"
-	} else if (5.5 < mag & mag <=6) {
-		return "#F9B167"
-	} else {
+	// } else if (5.5 < mag & mag <=20) {
+	// 	return "#F9B167"
+	// } else {
+	}else {
 		return "#FABE80"
 	};
-}
+}	
 
 //function to determine features based on eathquakeData
 function createFeatures(earthquakeData) {
@@ -70,7 +71,7 @@ var earthquakes =L.geoJSON(earthquakeData, {
 	pointToLayer: function (earthquakeData, latlng) {
 		return L.circle(latlng, {
 			"radius" : circleRadius(earthquakeData.properties.mag), //
-			"color": colorMarker(earthquakeData.properties.mag),
+			"color": colorMarker(earthquakeData.geometry.coordinates[2]), //come back and
 			fillOpacity: 500000
 		});
 	},
@@ -82,12 +83,12 @@ var earthquakes =L.geoJSON(earthquakeData, {
 }
 
 //COMEBACK TO ME for BONUS
-var faultlines =L geoJson(plates, {
-	pointToLayer: function(plates, latlng) {
-		one_point=data['features']['geometry']['coordinates'][0]
-		L.marker([one_point['features']['geometry']['coordinates'][1],one_point['features']['geometry']['coordinates'][0]])
-	})
-}
+// var faultlines =L geoJson(plates, {
+// 	pointToLayer: function(plates, latlng) {
+// 		// one_point=data['features']['geometry']['coordinates'][0]
+// 		L.marker([one_point['features']['geometry']['coordinates'][1],one_point['features']['geometry']['coordinates'][0]])
+// 	})
+// }
 
 
 
@@ -130,7 +131,6 @@ function createMap(earthquakes) {
 	//https:leafletjs.com/reference-1.7.1.html#layergroup
 	var overlayMaps ={
 		// Put Fault Lines: plates here if you do bonus
-		'FaultLines': faultlines,
 		'Earthquakes': earthquakes
 	};
 	//Step : create map
@@ -139,7 +139,7 @@ function createMap(earthquakes) {
 		center: [
 		40.0150, -105.2705
 		],
-		zoom:2,
+		zoom:4,
 		layers: [lightMap, earthquakes] //include plates overlay
 	});
 	// lay control to pass in our baseMaps and overlayMaps //add to map
@@ -157,25 +157,59 @@ function createMap(earthquakes) {
 		radius: 2000
 	}).addTo(myMap);
 
+	 var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
+ // //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
+
+ 	d3.json(plates).then(function(data) {
+ 		console.log(data)
+ 	
+ // 	d3.json(plates, function(data) {
+ // 		//https:leafletjs.com/examples/geojson/
+		L.geoJson(data, {
+    			color: "#000",
+			    weight: 1,
+			    opacity: 1,
+			}).addTo(myMap); //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
+		// one_point=data['features']['geometry']['coordinates'][0]
+	
+	});
 	//https:leafletjs.com/reference-1.7.1.html#control-layers-option
-	var info = L.control({
-		position: "bottomleft"
-	}); //https:leafletjs.com/examples/choropleth/
-	 info.onAdd = function () {
-		// https:leafletjs.com/reference-1.7.1.html#domutil
-	 	var div = L.DomUtil.create("div", "legend info");
-	 	var colors = color
-	 	div.update()
-	 	return div;
-	// // method that we will use to update the control based on feature properties passed
-	// info.update = function (props) {
- //    this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
- //        '<b>' + props.Layer + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
- //        : 'Hover over a state');
+	// var info = L.control({
+	// 	position: "bottomleft"
+	// }); //https:leafletjs.com/examples/choropleth/
+	//  info.onAdd = function (legend) {
+	// 	// https:leafletjs.com/reference-1.7.1.html#domutil
+	//  	this._div = L.DomUtil.create("div", "legendinfo");
+	//  	this.update();
+	//  	return this._div;
+	//  };
+
+ // 	info.update = function (props) {
+	// this._div.innerHTML = '<h4>Earthquake Magntiude</h4>' +  (props ?
+ //    '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+ //    : 'Hover over a state');
 	// };
 
+	var legend = L.control({position: 'bottomright'});
 
-	 }
+	legend.onAdd = function (map) {
+
+	    var div = L.DomUtil.create('div', 'info legend'),
+	        grades = [0, 10, 20, 50, 80, 100, 400, 5000] //,
+	        // labels = ["label1", "label2", "label3"];
+
+	    // loop through our density intervals and generate a label with a colored square for each interval
+	    for (var i = 0; i < grades.length; i++) {
+	        div.innerHTML +=
+	            '<i style="background:' + colorMarker(grades[i] + 1) + '"></i> ' +
+	            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+	    }
+
+	    return div;
+	};
+
+	legend.addTo(myMap);
+
 };
 	 // var info = L.control();
 
@@ -190,25 +224,22 @@ function createMap(earthquakes) {
 	//  document.querySelector(".legend").innterHTML=displayLegend();
 
 	//BONUS:
-
 	// d3.json(plates).then(function(data) {
 	// 	createFeatures(data.features);
 	// });
-
-
 	// //star here: https:github.com/fraxen/tectonicplates
  // 	// Take raw data from fraxen: https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_plates.json
  // 	// put this in jsonformatter 
  // 	var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
- // 	//raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
+ // // 	//raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
 
- // 	//d3.json(plates).then(function(data) {
- // 	// 	console.log(data)
- // 	// })
- // 	d3.json(plates, function(data) {
- // 		//https:leafletjs.com/examples/geojson/
+ // 	d3.json(plates).then(function(data) {
+ // 		console.log(data)
+ // 	})
+ // // 	d3.json(plates, function(data) {
+ // // 		//https:leafletjs.com/examples/geojson/
 	// 	L.geoJson(data).addTo(earthquakes); //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
-	// 	one_point=data['features']['geometry']['coordinates'][0]
+	// 	// one_point=data['features']['geometry']['coordinates'][0]
 	// 	L.marker([one_point['features']['geometry']['coordinates'][1],one_point['features']['geometry']['coordinates'][0]])
 	// })	.addTo(myMap);
  		// Need to go to 'features' key, 'geometry' key, 'coordinates' key, grab lat [1] and long [0]
