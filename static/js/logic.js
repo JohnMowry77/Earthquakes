@@ -166,7 +166,7 @@ function createMap(earthquakes) {
  // 	d3.json(plates, function(data) {
  // 		//https:leafletjs.com/examples/geojson/
 		L.geoJson(data, {
-    			color: "#C7505A",
+    			color: "#000",
 			    weight: 1,
 			    opacity: 1,
 			}).addTo(myMap); //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
