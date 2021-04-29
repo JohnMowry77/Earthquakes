@@ -82,13 +82,6 @@ var earthquakes =L.geoJSON(earthquakeData, {
 	createMap(earthquakes);
 }
 
-//COMEBACK TO ME for BONUS
-// var faultlines =L geoJson(plates, {
-// 	pointToLayer: function(plates, latlng) {
-// 		// one_point=data['features']['geometry']['coordinates'][0]
-// 		L.marker([one_point['features']['geometry']['coordinates'][1],one_point['features']['geometry']['coordinates'][0]])
-// 	})
-// }
 
 function createMap(earthquakes) {
 	//define the three different maps
@@ -125,19 +118,34 @@ function createMap(earthquakes) {
 		"Satellite": satelliteMap
 	};
 
+	var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
+// //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
+
+	d3.json(plates).then(function(data) {
+	console.log(data)
+
+// 		//https:leafletjs.com/examples/geojson/
+	const plate= L.geoJson(data, {
+		color: "#C7505A",
+		weight: 1,
+		opacity: 1,
+		}) //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
+	// one_point=data['features']['geometry']['coordinates'][0]
+
+	
 	//https:leafletjs.com/examples/layers-control/
 	//https:leafletjs.com/reference-1.7.1.html#layergroup
 	var overlayMaps ={
-		// Put Fault Lines: plates here if you do bonus
+		'Faultline': plate,
 		'Earthquakes': earthquakes
 	};
 	//Step : create map
 	// var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
 	var myMap =L.map("mapid", {
 		center: [
-		40.0150, -105.2705
+		40.4637, 3.7492 //look for spain
 		],
-		zoom:4,
+		zoom:2.75,
 		layers: [outdoorsMap, earthquakes] //include plates overlay
 	});
 	// lay control to pass in our baseMaps and overlayMaps //add to map
@@ -155,30 +163,30 @@ function createMap(earthquakes) {
 		radius: 2000
 	}).addTo(myMap);
 
-	 var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
- // //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
+	//  var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
+ // // //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
 
- 	d3.json(plates).then(function(data) {
- 		console.log(data)
+ // 	d3.json(plates).then(function(data) {
+ // 		console.log(data)
  
- // 		//https:leafletjs.com/examples/geojson/
-		L.geoJson(data, {
-    			color: "#C7505A",
-			    weight: 1,
-			    opacity: 1,
-			}).addTo(myMap); //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
-		// one_point=data['features']['geometry']['coordinates'][0]
+ // // 		//https:leafletjs.com/examples/geojson/
+	// 	L.geoJson(data, {
+ //    			color: "#C7505A",
+	// 		    weight: 1,
+	// 		    opacity: 1,
+	// 		}).addTo(myMap); //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
+	// 	// one_point=data['features']['geometry']['coordinates'][0]
 	
-	});
+	// });
 
 	//https:leafletjs.com/reference-1.7.1.html#control-layers-option
-	https://leafletjs.com/examples/choropleth/  //Custom Legend control
+	//https:leafletjs.com/examples/choropleth/  //Custom Legend control
 	var legend = L.control({position: 'bottomright'});
 
 	legend.onAdd = function (map) {
 
 	    var div = L.DomUtil.create('div', 'info legend'),
-	        earthquake = [0, 1, 2, 3, 4, 5] //,
+	        earthquake = [0, 10, 20, 50, 80, 100, 400] //,
 	        // labels = ["label1", "label2", "label3"];
 
 	    // loop through our density intervals and generate a label with a colored square for each interval
@@ -192,8 +200,9 @@ function createMap(earthquakes) {
 	};
 
 	legend.addTo(myMap);
-
+});
 };
+
 //////////////////////
 //Create Markers function
 // function Markers(response) {
