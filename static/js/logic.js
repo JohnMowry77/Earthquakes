@@ -29,13 +29,13 @@ d3.json(base_url).then(function(data){
 });
 // https:color-hex.org/color/f57e02
 function colorMarker(mag) { //USE THIS FOR LEGEND ADJUST 
-	if (mag <=0) {
+	if (mag <=1) {
 		return "#f57e02";
-	} else if (9 < mag & mag <=20) {
+	} else if (2 < mag & mag <=3) {
 		return "#F68A1B"
-	} else if ( 49< mag & mag <=80) {
+	} else if ( 3< mag & mag <=4) {
 		return "#F79734"
-	} else if (99 < mag & mag <=400) {
+	} else if (4 < mag & mag <=5) {
 		return "#F8A44D"
 	// } else if (5.5 < mag & mag <=20) {
 	// 	return "#F9B167"
@@ -90,7 +90,24 @@ var earthquakes =L.geoJSON(earthquakeData, {
 // 	})
 // }
 
+// var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
+//  // //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
 
+// d3.json(plates).then(function(data) {
+// 	console.log(data)
+// 	createFeatures(data.features);
+// });
+// var platesData=L.geoJSON(data, {
+// 	pointToLayer:function(data, latlng) {
+// 		return L.polyline(latlng, {
+// 			"color": orange(data.properties.geometry.coordinates[0],data.properties.geometry.coordinates[1])
+
+	// });
+	// L.geoJson(data, {
+	// 	color: "#C7505A",
+	// 	weight: 1,
+	// 	opacity: 1,
+	// 	}).addTo(myMap);
 
 function createMap(earthquakes) {
 	//define the three different maps
@@ -121,6 +138,20 @@ function createMap(earthquakes) {
     accessToken: API_KEY
 	});
 
+	//  var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
+ // // //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
+
+ // 	plate =d3.json(plates).then(function(data) {
+ // 		console.log(data)
+ // 		L.geoJson(data, {
+ // 			color: "#C7505A",
+ // 			weight: 1,
+ // 			opacity: 1,
+ 			// }).addTo(myMap); //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
+		// one_point=data['features']['geometry']['coordinates'][0]
+	 // 		//https:leafletjs.com/examples/geojson/
+	// });
+
 	var baseMaps= {
 		"Light Map": lightMap,
 		"Outdoors Map": outdoorsMap,
@@ -130,6 +161,7 @@ function createMap(earthquakes) {
 	//https:leafletjs.com/examples/layers-control/
 	//https:leafletjs.com/reference-1.7.1.html#layergroup
 	var overlayMaps ={
+		// 'Faultlines': platesData,
 		// Put Fault Lines: plates here if you do bonus
 		'Earthquakes': earthquakes
 	};
@@ -137,9 +169,11 @@ function createMap(earthquakes) {
 	// var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
 	var myMap =L.map("mapid", {
 		center: [
-		40.0150, -105.2705
+		35.534260004047376, -20.030073345048297
+		// 32.29780681343996, -64.76880518602921
+		// 40.0150, -105.2705
 		],
-		zoom:4,
+		zoom:3.75,
 		layers: [lightMap, earthquakes] //include plates overlay
 	});
 	// lay control to pass in our baseMaps and overlayMaps //add to map
@@ -158,12 +192,13 @@ function createMap(earthquakes) {
 	}).addTo(myMap);
 
 	 var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
- // //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
+ //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
 
- 	d3.json(plates).then(function(data) {
- 		console.log(data)
+ // 	d3.json(plates).then(function(data) {
+ // 		console.log(data)
  	
- // 	d3.json(plates, function(data) {
+ 	d3.json(plates, function(data) {
+ 		console.log(data)
  // 		//https:leafletjs.com/examples/geojson/
 		L.geoJson(data, {
     			color: "#C7505A",
@@ -195,14 +230,15 @@ function createMap(earthquakes) {
 	legend.onAdd = function (map) {
 
 	    var div = L.DomUtil.create('div', 'info legend'),
-	        grades = [0, 10, 20, 50, 80, 100, 400, 5000] //,
+	        // grades = [0, 10, 20, 50, 80, 100, 400, 5000] //,
+	        earthquake= [0, 1, 2, 3, 4, 5]
 	        // labels = ["label1", "label2", "label3"];
 
 	    // loop through our density intervals and generate a label with a colored square for each interval
-	    for (var i = 0; i < grades.length; i++) {
+	    for (var i = 0; i < earthquake.length; i++) {
 	        div.innerHTML +=
-	            '<i style="background:' + colorMarker(grades[i] + 1) + '"></i> ' +
-	            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+	            '<i style="background:' + colorMarker(earthquake[i] + 1) + '"></i> ' +
+	            earthquake[i] + (earthquake[i + 1] ? '&ndash;' + earthquake[i + 1] + '<br>' : '+');
 	    }
 
 	    return div;
