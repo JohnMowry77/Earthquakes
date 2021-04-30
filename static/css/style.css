@@ -15,13 +15,13 @@ html {
 }
 
 .legend {
-	background-color: white;
+	background-color: #fefefe;
     line-height: 18px;
     color: #555;
-    width: 500px;
+    width: 80px;
 }
 .legend i {
-    width: 18px;
+    width: 15px;
     height: 18px;
     float: left;
     margin-right: 8px;

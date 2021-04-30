@@ -30,18 +30,18 @@ d3.json(base_url).then(function(data){
 // https:color-hex.org/color/f57e02
 function colorMarker(mag) { //USE THIS FOR LEGEND ADJUST 
 	if (mag <=0) {
-		return "#f57e02";
+		return "#7cfc00";
 	} else if (9 < mag & mag <=20) {
-		return "#F68A1B"
+		return "#00bfff"
 	} else if ( 49< mag & mag <=80) {
-		return "#F79734"
+		return "#dc143c"
 	} else if (99 < mag & mag <=400) {
-		return "#F8A44D"
+		return "#ff0000"
 	// } else if (5.5 < mag & mag <=20) {
 	// 	return "#F9B167"
 	// } else {
 	}else {
-		return "#FABE80"
+		return "#800000"
 	};
 }	
 
@@ -53,7 +53,9 @@ function createFeatures(earthquakeData) {
 	function onEachFeature(feature, layer) {
 		layer.bindPopup("<h3>" + feature.properties.place + //location
 			"</h3><hr><p>" + new Date(feature.properties.time) + "</p" //time of day ISO 
-			+"<p>><b>Magnitude:" + feature.properties.mag + "<b></p>"); //gives you magnitude 
+			+"<p>><b>Magnitude:" + feature.properties.mag + "<b></p>" 
+			+"<p>><b>Depth:" + feature.geometry.coordinates[2] + "<b></p>"
+			); //gives you magnitude 
 	}
 
 //Create radius function
@@ -122,7 +124,7 @@ function createMap(earthquakes) {
 // //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
 
 	d3.json(plates).then(function(data) {
-	console.log(data)
+	// console.log(data)
 
 // 		//https:leafletjs.com/examples/geojson/
 	const plate= L.geoJson(data, {
@@ -130,8 +132,6 @@ function createMap(earthquakes) {
 		weight: 1,
 		opacity: 1,
 		}) //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
-	// one_point=data['features']['geometry']['coordinates'][0]
-
 	
 	//https:leafletjs.com/examples/layers-control/
 	//https:leafletjs.com/reference-1.7.1.html#layergroup
@@ -139,14 +139,14 @@ function createMap(earthquakes) {
 		'Faultline': plate,
 		'Earthquakes': earthquakes
 	};
-	//Step : create map
+	// create map
 	// var myMap= L.map('mapid').setView([40.0150, -105.2705], 10)
 	var myMap =L.map("mapid", {
 		center: [
 		40.4637, 3.7492 //look for spain
 		],
 		zoom:2.75,
-		layers: [outdoorsMap, earthquakes] //include plates overlay
+		layers: [outdoorsMap, earthquakes, plate] //include plates overlay
 	});
 	// lay control to pass in our baseMaps and overlayMaps //add to map
 	L.control.layers(baseMaps, overlayMaps, {
@@ -154,7 +154,7 @@ function createMap(earthquakes) {
 	}).addTo(myMap);
 	
 	//https:leafletjs.com/examples/layers-control/
-	//a location in Boulder, CO
+	//a location in Boulder, CO //Not Required
 	L.marker([40.01254656535285, -105.30987744617616]).bindPopup('This is Boulder, CO.').addTo(myMap);
 	L.circle([40.01254656535285, -105.30987744617616], {
 		color: "yellow",
@@ -163,31 +163,15 @@ function createMap(earthquakes) {
 		radius: 2000
 	}).addTo(myMap);
 
-	//  var plates = "https:raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
- // // //raw.githubusercontent.com/fraxen/tectonicplates/b53c3b7d82afd764650ebdc4565b9666795b9d83/GeoJSON/PB2002_plates.json
-
- // 	d3.json(plates).then(function(data) {
- // 		console.log(data)
- 
- // // 		//https:leafletjs.com/examples/geojson/
-	// 	L.geoJson(data, {
- //    			color: "#C7505A",
-	// 		    weight: 1,
-	// 		    opacity: 1,
-	// 		}).addTo(myMap); //https:leafletjs.com/reference-1.7.1.html#layer (search L.geoJson)
-	// 	// one_point=data['features']['geometry']['coordinates'][0]
-	
-	// });
-
 	//https:leafletjs.com/reference-1.7.1.html#control-layers-option
-	//https:leafletjs.com/examples/choropleth/  //Custom Legend control
+	//https:leafletjs.com/examples/choropleth/  //Custom Legend control (use example)
 	var legend = L.control({position: 'bottomright'});
 
 	legend.onAdd = function (map) {
 
 	    var div = L.DomUtil.create('div', 'info legend'),
 	        earthquake = [0, 10, 20, 50, 80, 100, 400] //,
-	        // labels = ["label1", "label2", "label3"];
+	        // labels = ["label1", "label2", "label3"]; Can pass array for labels 
 
 	    // loop through our density intervals and generate a label with a colored square for each interval
 	    for (var i = 0; i < earthquake.length; i++) {
