@@ -1,7 +1,7 @@
 //documentation
 //https:leafletjs.com/examples/quick-start/
 
-//Step 1: store API endpoint (Read Me)
+// store API endpoint (Read Me)
 var base_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
 
 //mapid is div within index.thml
@@ -12,36 +12,36 @@ var base_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/signif
 //     zoom: 5
 // })
 
-// Step 3: Add a tile layer to your map
+// Add a tile layer to your map
 // use addTo method to add objects to your map.
 // Here are the ids you will need for the base maps in the homework:
 // gray map: “mapbox/light-v10”
 // satellite map: “mapbox/satellite-v9"
 // outdoors map: “mapbox/outdoors-v11”
 
-
-//Step 4: Perform a GET request to the base_url
+//Perform a GET request to the base_url
 //https:leafletjs.com/examples/geojson/
+//https:bost.ocks.org/mike/leaflet/
 d3.json(base_url).then(function(data){
 	//Once we get a response, send the data.features object to the CreateFeatures function
 	// console.log(data)
 	createFeatures(data.features);
 });
 // https:color-hex.org/color/f57e02
-function colorMarker(mag) { //USE THIS FOR LEGEND ADJUST 
-	if (mag <=0) {
+function colorMarker(depth) { //USE THIS FOR LEGEND ADJUST 
+	if (depth <=0) {
 		return "#7cfc00";
-	} else if (9 < mag & mag <=20) {
-		return "#00bfff"
-	} else if ( 49< mag & mag <=80) {
+	} else if (9 < depth & depth <=20) {
+		return "#ffa500"
+	} else if ( 49< depth & depth <=80) {
 		return "#dc143c"
-	} else if (99 < mag & mag <=400) {
+	} else if (99 < depth & depth <=400) {
 		return "#ff0000"
 	// } else if (5.5 < mag & mag <=20) {
 	// 	return "#F9B167"
 	// } else {
 	}else {
-		return "#800000"
+		return "#00801a"
 	};
 }	
 
@@ -63,7 +63,6 @@ function circleRadius(mag) {
 	return mag * 30000;
 }
 
-
 //Create a GeoJson layer containing the features array on the eathquakeData object
 //Run the onEachFeature function once for each piece of data in the array 
 // Run pointToLayer function and use latlng which Represents a geographical point with a certain latitude and longitude (documentation)
@@ -83,7 +82,6 @@ var earthquakes =L.geoJSON(earthquakeData, {
 //Sending earthquakes layer to the createMap function
 	createMap(earthquakes);
 }
-
 
 function createMap(earthquakes) {
 	//define the three different maps
@@ -127,7 +125,7 @@ function createMap(earthquakes) {
 	// console.log(data)
 
 // 		//https:leafletjs.com/examples/geojson/
-	const plate= L.geoJson(data, {
+	const plate= L.geoJSON(data, {
 		color: "#C7505A",
 		weight: 1,
 		opacity: 1,
@@ -219,7 +217,6 @@ function createMap(earthquakes) {
 	// 		fillColor: "green",
 	// 		fillOpacity: 0.75
 	// 	}).addTo(myMap);
-
 
 // var myIcon = L.icon({
 //     'iconUrl': "https://img.icons8.com/doodle/48/000000/apple.png",
