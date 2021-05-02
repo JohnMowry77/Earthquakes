@@ -29,9 +29,9 @@ d3.json(base_url).then(function(data){
 });
 // https:color-hex.org/color/f57e02
 function colorMarker(depth) { //USE THIS FOR LEGEND ADJUST 
-	if (depth <=0) {
+	if (depth <=20) {
 		return "#7cfc00";
-	} else if (9 < depth & depth <=20) {
+	} else if (21 < depth & depth <=48) {
 		return "#ffa500"
 	} else if ( 49< depth & depth <=80) {
 		return "#dc143c"
@@ -50,11 +50,18 @@ function createFeatures(earthquakeData) {
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
   //https:leafletjs.com/reference-1.7.1.html#geojson-oneachfeature
+
+  //https:scedc.caltech.edu/recent/glossary.html
+  //Horizontal distance from the epicenter to the nearest station (in km). 
+  //In general, the smaller this number, the more reliable is the calculated depth of the earthquake.
 	function onEachFeature(feature, layer) {
 		layer.bindPopup("<h3>" + feature.properties.place + //location
 			"</h3><hr><p>" + new Date(feature.properties.time) + "</p" //time of day ISO 
-			+"<p>><b>Magnitude:" + feature.properties.mag + "<b></p>" 
-			+"<p>><b>Depth:" + feature.geometry.coordinates[2] + "<b></p>"
+			+"<p>><b>magnitude:" + feature.properties.mag + "<b></p>" 
+			+"<p>><b>url:" + feature.properties.status + "<b></p>"
+			+"<p>><b>tsunami:" + feature.properties.tsunami + "<b></p>" 
+			+"<p>><b>dmin:" + feature.properties.dmin + "<b></p>"			 
+			+"<p>><b>depth:" + feature.geometry.coordinates[2] + "<b></p>"
 			); //gives you magnitude 
 	}
 
@@ -144,7 +151,7 @@ function createMap(earthquakes) {
 		40.4637, 3.7492 //look for spain
 		],
 		zoom:2.75,
-		layers: [outdoorsMap, earthquakes, plate] //include plates overlay
+		layers: [outdoorsMap, earthquakes] //include plates overlay
 	});
 	// lay control to pass in our baseMaps and overlayMaps //add to map
 	L.control.layers(baseMaps, overlayMaps, {
