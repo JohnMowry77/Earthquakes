@@ -45,7 +45,7 @@ Your first task is to visualize an earthquake data set.
 ![Cluster](https://user-images.githubusercontent.com/72773479/127752511-850292ee-f35f-4864-a889-887fcd5c8da0.png)
 
 	The USGS wants you to plot a second data set on your map to illustrate the relationship between tectonic plates and seismic activity. You will need to pull in a second data set and visualize it along side your original set of data. Data on tectonic plates can be found at <https://github.com/fraxen/tectonicplates>.
-
+	
 
 ![final_outdoor_fault_map](https://user-images.githubusercontent.com/72773479/127752458-76c2950b-83a9-4558-8371-eb4b80c389e8.png)
 ![final_outdoor_map](https://user-images.githubusercontent.com/72773479/127752460-e2cef7dc-fccb-45e5-8015-a23838cee890.png)
